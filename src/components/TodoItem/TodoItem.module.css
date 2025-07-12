@@ -1,0 +1,38 @@
+.todoItem {
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+    gap: 10px;
+}
+
+.todoItem:hover {
+    border-color: darkgray;
+}
+
+.indexTodo {
+    width: 5%;
+}
+
+.textTodo {
+    width: 40%;
+    word-wrap: break-word;
+}
+
+.dateTodo {
+    width: 40%;
+}
+.deleteButton {
+    width: 10%;
+    font-size: 14px;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+}
+.deleteButton:hover {
+    opacity: 0.7;
+}

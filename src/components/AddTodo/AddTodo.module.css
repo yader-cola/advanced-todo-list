@@ -1,0 +1,45 @@
+.formAddTodo {
+    width: 100%;
+    border-top: 1px solid black;
+    margin-top: 30px;
+    padding: 20px 10px 20px;
+}
+
+.activeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.addTodoInput {
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.addTodoInput:focus {
+    outline: none;
+    border-color: darkgray;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: space-around;
+}
+
+.buttonTodo {
+    background: lightgray;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    height: 40px;
+    min-width: 120px;
+}
+
+.buttonTodo:hover {
+    border-color: darkgray;
+}
+
