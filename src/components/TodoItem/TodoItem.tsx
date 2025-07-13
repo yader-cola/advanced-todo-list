@@ -11,6 +11,15 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, on
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSave();
+    } else if (e.key === 'Escape') {
+      onStartEditing(null);
+    }
+  };
+
   return (
     <div className={styles.todoItem}>
       <span className={styles.indexTodo}>{index}</span>
@@ -22,6 +31,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, on
             type="text"
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <button className={`${styles.saveButton} ${styles.button}`} onClick={() => handleSave()}>
             ✔

@@ -13,7 +13,7 @@ export interface TodoListProps {
   todos: Todo[];
   onDeleteTodo: (id: number) => void;
   onEditTodo: (id: number, newText: string) => void;
-  onStartEditing: (id: number) => void;
+  onStartEditing: (id: number | null) => void;
 }
 
 export interface TodoItemProps {
@@ -21,5 +21,5 @@ export interface TodoItemProps {
   onDelete: (id: number) => void;
   index: number;
   onEditTodo: (id: number, newText: string) => void;
-  onStartEditing: (id: number) => void;
+  onStartEditing: (id: number | null) => void;
 }

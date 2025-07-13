@@ -39,7 +39,7 @@ const App: FC = () => {
     );
   };
 
-  const startEditing = (id: number) => {
+  const startEditing = (id: number | null) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, isEditing: true } : { ...todo, isEditing: false },
