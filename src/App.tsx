@@ -29,11 +29,30 @@ const App: FC = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const handleEditTodo = (id: number, newText: string) => {
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, text: newText, isEditing: false } : todo)),
+    );
+  };
+
+  const startEditing = (id: number) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isEditing: true } : { ...todo, isEditing: false },
+      ),
+    );
+  };
+
   return (
     <>
       <h1>Advanced Todo List</h1>
       <div className="todoApp">
-        <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} />
+        <TodoList
+          todos={todos}
+          onDeleteTodo={handleDeleteTodo}
+          onEditTodo={handleEditTodo}
+          onStartEditing={startEditing}
+        />
         <AddTodo addTodo={handleAddTodo} />
       </div>
     </>
