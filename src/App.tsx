@@ -31,7 +31,11 @@ const App: FC = () => {
 
   const handleEditTodo = (id: number, newText: string) => {
     setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, text: newText, isEditing: false } : todo)),
+      todos.map((todo) =>
+        todo.id === id
+          ? { ...todo, text: newText, date: new Date().toISOString(), isEditing: false }
+          : todo,
+      ),
     );
   };
 
@@ -53,7 +57,7 @@ const App: FC = () => {
           onEditTodo={handleEditTodo}
           onStartEditing={startEditing}
         />
-        <AddTodo addTodo={handleAddTodo} />
+        <AddTodo handleAddTodo={handleAddTodo} />
       </div>
     </>
   );

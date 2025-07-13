@@ -10,6 +10,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, on
       onEditTodo(todo.id, editText);
     }
   };
+
   return (
     <div className={styles.todoItem}>
       <span className={styles.indexTodo}>{index}</span>

@@ -32,23 +32,20 @@
 .dateTodo {
     width: 30%;
 }
+
 .buttons {
     display: flex;
     justify-content: space-between;
 }
+
 .button {
     background: transparent;
     cursor: pointer;
     border: none;
     font-size: 16px;
 }
+
 .button:hover {
     opacity: 0.7;
     transform: scale(1.05);
-}
-.editButton {
-
-}
-.deleteButton {
-
 }

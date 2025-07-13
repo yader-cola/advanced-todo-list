@@ -6,7 +6,7 @@ export interface Todo {
 }
 
 export interface AddTodoProps {
-  addTodo: (text: string) => void;
+  handleAddTodo: (text: string) => void;
 }
 
 export interface TodoListProps {

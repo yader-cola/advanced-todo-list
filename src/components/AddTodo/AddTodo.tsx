@@ -2,7 +2,7 @@ import { type FC, useEffect, useRef, useState } from 'react';
 import styles from './AddTodo.module.css';
 import type { AddTodoProps } from '../../types/todo';
 
-const AddTodo: FC<AddTodoProps> = ({ addTodo }) => {
+const AddTodo: FC<AddTodoProps> = ({ handleAddTodo }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActive] = useState(false);
 
@@ -13,14 +13,14 @@ const AddTodo: FC<AddTodoProps> = ({ addTodo }) => {
 
   const submitTodo = () => {
     if (inputRef.current?.value.trim()) {
-      addTodo(inputRef.current.value);
+      handleAddTodo(inputRef.current.value);
       inputRef.current.value = '';
       setIsActive(false);
     }
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (isActive && e.key === 'Escape') {
+    if (e.key === 'Escape') {
       setIsActive(false);
     }
     if (e.key === 'Enter') {
