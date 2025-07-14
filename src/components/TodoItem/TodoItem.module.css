@@ -23,16 +23,29 @@
     word-wrap: break-word;
 }
 
-.dateTodo {
-    width: 40%;
+.editInput {
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100%;
 }
-.deleteButton {
-    width: 10%;
-    font-size: 14px;
+
+.dateTodo {
+    width: 30%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
     background: transparent;
     cursor: pointer;
     border: none;
+    font-size: 16px;
 }
-.deleteButton:hover {
+
+.button:hover {
     opacity: 0.7;
+    transform: scale(1.05);
 }

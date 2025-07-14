@@ -1,8 +1,8 @@
-import { type FC, useEffect, useRef, useState } from 'react';
+import { type FC, useRef, useState } from 'react';
 import styles from './AddTodo.module.css';
 import type { AddTodoProps } from '../../types/todo';
 
-const AddTodo: FC<AddTodoProps> = ({ addTodo }) => {
+const AddTodo: FC<AddTodoProps> = ({ handleAddTodo }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActive] = useState(false);
 
@@ -13,30 +13,22 @@ const AddTodo: FC<AddTodoProps> = ({ addTodo }) => {
 
   const submitTodo = () => {
     if (inputRef.current?.value.trim()) {
-      addTodo(inputRef.current.value);
+      handleAddTodo(inputRef.current.value);
       inputRef.current.value = '';
       setIsActive(false);
     }
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (isActive && e.key === 'Escape') {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isActive) return;
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitTodo();
+    } else if (e.key === 'Escape') {
       setIsActive(false);
     }
-    if (e.key === 'Enter') {
-      if (!isActive) {
-        setIsActive(true);
-      }
-      submitTodo();
-    }
   };
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isActive]);
 
   return (
     <form className={styles.formAddTodo} onSubmit={handleSubmit}>
@@ -48,6 +40,7 @@ const AddTodo: FC<AddTodoProps> = ({ addTodo }) => {
             ref={inputRef}
             autoFocus
             placeholder="Введите текст задачи"
+            onKeyDown={handleKeyDown}
           />
           <div className={styles.buttonGroup}>
             <button className={styles.buttonTodo} type="submit">
