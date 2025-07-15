@@ -8,9 +8,9 @@
 .activeForm {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 15px;
     width: 100%;
-    margin: 0 auto;
 }
 
 .addTodoInput {
@@ -27,7 +27,8 @@
 
 .buttonGroup {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    gap: 50px;
 }
 
 .buttonTodo {
@@ -40,6 +41,6 @@
 }
 
 .buttonTodo:hover {
-    border-color: darkgray;
+    opacity: 0.8;
 }
 
