@@ -10,8 +10,20 @@
     gap: 10px;
 }
 
+.low {
+    border-color: green;
+}
+
+.medium {
+    border-color: orange;
+}
+
+.high {
+    border-color: orangered;
+}
+
 .todoItem:hover {
-    border-color: darkgray;
+    transform: scale(1.01);
 }
 
 .indexTodo {

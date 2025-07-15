@@ -2,7 +2,7 @@ import './App.css';
 import { type FC, useEffect, useState } from 'react';
 import TodoList from './components/TodoList/TodoList.tsx';
 import AddTodo from './components/AddTodo/AddTodo.tsx';
-import type { Todo } from './types/todo';
+import type { Priority, Todo } from './types/todo';
 
 const STORAGE_KEY = 'todos';
 
@@ -16,11 +16,12 @@ const App: FC = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
 
-  const handleAddTodo = (text: string) => {
+  const handleAddTodo = (text: string, priority: Priority) => {
     const newTodo: Todo = {
       id: Date.now(),
       text: text,
       date: new Date().toISOString(),
+      priority: priority,
     };
     setTodos([...todos, newTodo]);
   };
@@ -29,11 +30,17 @@ const App: FC = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const handleEditTodo = (id: number, newText: string) => {
+  const handleEditTodo = (id: number, newText: string, newPriority: Priority) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id
-          ? { ...todo, text: newText, date: new Date().toISOString(), isEditing: false }
+          ? {
+              ...todo,
+              text: newText,
+              priority: newPriority,
+              date: new Date().toISOString(),
+              isEditing: false,
+            }
           : todo,
       ),
     );

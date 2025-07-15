@@ -1,10 +1,12 @@
 import { type FC, useRef, useState } from 'react';
 import styles from './AddTodo.module.css';
-import type { AddTodoProps } from '../../types/todo';
+import type { AddTodoProps, Priority } from '../../types/todo';
+import MySelect from '../MySelect/MySelect.tsx';
 
 const AddTodo: FC<AddTodoProps> = ({ handleAddTodo }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActive] = useState(false);
+  const [priority, setPriority] = useState<Priority>('medium');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -13,9 +15,10 @@ const AddTodo: FC<AddTodoProps> = ({ handleAddTodo }) => {
 
   const submitTodo = () => {
     if (inputRef.current?.value.trim()) {
-      handleAddTodo(inputRef.current.value);
+      handleAddTodo(inputRef.current.value, priority);
       inputRef.current.value = '';
       setIsActive(false);
+      setPriority('medium');
     }
   };
 
@@ -42,6 +45,7 @@ const AddTodo: FC<AddTodoProps> = ({ handleAddTodo }) => {
             placeholder="Введите текст задачи"
             onKeyDown={handleKeyDown}
           />
+          <MySelect priority={priority} setPriority={setPriority} />
           <div className={styles.buttonGroup}>
             <button className={styles.buttonTodo} type="submit">
               Сохранить
