@@ -31,7 +31,7 @@
 }
 
 .textTodo {
-    width: 40%;
+    width: 35%;
     word-wrap: break-word;
 }
 
@@ -48,6 +48,7 @@
 .buttons {
     display: flex;
     justify-content: space-between;
+    width: 15%;
 }
 
 .button {

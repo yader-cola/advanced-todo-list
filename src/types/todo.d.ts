@@ -6,6 +6,7 @@ export interface Todo {
   date: string;
   priority: Priority;
   isEditing?: boolean;
+  lastState?: { text: string; priority: Priority };
 }
 
 export interface AddTodoProps {
