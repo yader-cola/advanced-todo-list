@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import styles from './TodoItem.module.css';
 import type { Priority, TodoItemProps } from '../../types/todo';
 import MySelect from '../MySelect/MySelect.tsx';
@@ -12,12 +12,32 @@ const priorityLabels: Record<Priority, string> = {
 const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, onEditTodo }) => {
   const [editText, setEditText] = useState(todo.text);
   const [editPriority, setEditPriority] = useState<Priority>(todo.priority);
+  const [showUndo, setShowUndo] = useState(false);
+  const [lastState, setLastState] = useState<{ text: string; priority: Priority }>();
 
   const handleSave = () => {
     if (editText.trim()) {
+      setLastState({ text: todo.text, priority: todo.priority });
       onEditTodo(todo.id, editText, editPriority);
+      setShowUndo(true);
     }
   };
+
+  const handleUndo = () => {
+    if (lastState) {
+      onEditTodo(todo.id, lastState.text, lastState.priority);
+      setShowUndo(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showUndo) {
+      const timer = setTimeout(() => {
+        setShowUndo(false);
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [showUndo]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -27,7 +47,6 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, on
       onStartEditing(null);
     }
   };
-  console.log(styles[todo.priority]);
 
   return (
     <div className={`${styles.todoItem} ${styles[todo.priority]}`}>
@@ -62,6 +81,11 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, on
             onClick={() => onStartEditing(todo.id)}
           >
             ✏️
+          </button>
+        )}
+        {showUndo && (
+          <button className={`${styles.undoButton} ${styles.button}`} onClick={handleUndo}>
+            ↩️
           </button>
         )}
         <button
