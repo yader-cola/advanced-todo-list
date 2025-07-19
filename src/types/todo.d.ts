@@ -32,3 +32,15 @@ export interface MySelectProps {
   priority: Priority;
   setPriority: (priority: Priority) => void;
 }
+
+export type SortField = 'date' | 'priority';
+export type SortDirection = 'asc' | 'desc';
+
+export interface SortControlsProps {
+  onChange: (field: SortField, direction: SortDirection) => void;
+}
+
+export interface SortConfigState {
+  field: 'date' | 'priority';
+  direction: 'asc' | 'desc';
+}

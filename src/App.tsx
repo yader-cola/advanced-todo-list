@@ -2,7 +2,8 @@ import './App.css';
 import { type FC, useEffect, useState } from 'react';
 import TodoList from './components/TodoList/TodoList.tsx';
 import AddTodo from './components/AddTodo/AddTodo.tsx';
-import type { Priority, Todo } from './types/todo';
+import type { Priority, SortConfigState, SortDirection, SortField, Todo } from './types/todo';
+import SortSelect from './components/SortSelect/SortSelect.tsx';
 
 const STORAGE_KEY = 'todos';
 
@@ -11,10 +12,31 @@ const App: FC = () => {
     const storageSaved = localStorage.getItem(STORAGE_KEY);
     return storageSaved ? JSON.parse(storageSaved) : [];
   });
+  const [sortConfig, setSortConfig] = useState<SortConfigState>({
+    field: 'date',
+    direction: 'desc',
+  });
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
+
+  const sortedTodos = [...todos].sort((a, b) => {
+    if (sortConfig.field === 'date') {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
+    } else {
+      const priorityOrder: Record<Priority, number> = { high: 3, medium: 2, low: 1 };
+      const aPriority = priorityOrder[a.priority];
+      const bPriority = priorityOrder[b.priority];
+      return sortConfig.direction === 'asc' ? aPriority - bPriority : bPriority - aPriority;
+    }
+  });
+
+  const handleSortChange = (field: SortField, direction: SortDirection) => {
+    setSortConfig({ field, direction });
+  };
 
   const handleAddTodo = (text: string, priority: Priority) => {
     const newTodo: Todo = {
@@ -58,8 +80,12 @@ const App: FC = () => {
     <>
       <h1>Advanced Todo List</h1>
       <div className="todoApp">
+        <div className="controls">
+          <span>Сортировка:</span>
+          <SortSelect onChange={handleSortChange}></SortSelect>
+        </div>
         <TodoList
-          todos={todos}
+          todos={sortedTodos}
           onDeleteTodo={handleDeleteTodo}
           onEditTodo={handleEditTodo}
           onStartEditing={startEditing}
