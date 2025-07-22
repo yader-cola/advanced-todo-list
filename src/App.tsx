@@ -37,7 +37,6 @@ const App: FC = () => {
     setSortConfig({ field, direction });
   };
 
-  console.log(typeof crypto.randomUUID(), typeof Date.now());
   const handleAddTodo = (text: string, priority: Priority) => {
     const newTodo: Todo = {
       id: crypto.randomUUID(),
