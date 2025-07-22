@@ -26,21 +26,21 @@ const App: FC = () => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
-    } else {
-      const priorityOrder: Record<Priority, number> = { high: 3, medium: 2, low: 1 };
-      const aPriority = priorityOrder[a.priority];
-      const bPriority = priorityOrder[b.priority];
-      return sortConfig.direction === 'asc' ? aPriority - bPriority : bPriority - aPriority;
     }
+    const priorityOrder: Record<Priority, number> = { high: 3, medium: 2, low: 1 };
+    const aPriority = priorityOrder[a.priority];
+    const bPriority = priorityOrder[b.priority];
+    return sortConfig.direction === 'asc' ? aPriority - bPriority : bPriority - aPriority;
   });
 
   const handleSortChange = (field: SortField, direction: SortDirection) => {
     setSortConfig({ field, direction });
   };
 
+  console.log(typeof crypto.randomUUID(), typeof Date.now());
   const handleAddTodo = (text: string, priority: Priority) => {
     const newTodo: Todo = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       text: text,
       date: new Date().toISOString(),
       priority: priority,
@@ -48,11 +48,11 @@ const App: FC = () => {
     setTodos([...todos, newTodo]);
   };
 
-  const handleDeleteTodo = (id: number) => {
+  const handleDeleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const handleEditTodo = (id: number, newText: string, newPriority: Priority) => {
+  const handleEditTodo = (id: string, newText: string, newPriority: Priority) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id
@@ -68,7 +68,7 @@ const App: FC = () => {
     );
   };
 
-  const startEditing = (id: number | null) => {
+  const startEditing = (id: string | null) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, isEditing: true } : { ...todo, isEditing: false },
