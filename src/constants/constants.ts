@@ -11,3 +11,5 @@ export const PRIORITY_MAP: Record<Priority, string> = {
   medium: 'Средний',
   high: 'Высокий',
 };
+
+export const DEFAULT_TIMER: number = 10000;
