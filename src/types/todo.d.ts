@@ -1,7 +1,7 @@
 export type Priority = 'low' | 'medium' | 'high';
 
 export interface Todo {
-  id: number;
+  id: string;
   text: string;
   date: string;
   priority: Priority;
@@ -15,20 +15,32 @@ export interface AddTodoProps {
 
 export interface TodoListProps {
   todos: Todo[];
-  onDeleteTodo: (id: number) => void;
-  onEditTodo: (id: number, newText: string, newPriority: Priority) => void;
-  onStartEditing: (id: number | null) => void;
+  onDeleteTodo: (id: string) => void;
+  onEditTodo: (id: string, newText: string, newPriority: Priority) => void;
+  onStartEditing: (id: string | null) => void;
 }
 
 export interface TodoItemProps {
   todo: Todo;
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
   index: number;
-  onEditTodo: (id: number, newText: string, newPriority: Priority) => void;
-  onStartEditing: (id: number | null) => void;
+  onEditTodo: (id: string, newText: string, newPriority: Priority) => void;
+  onStartEditing: (id: string | null) => void;
 }
 
 export interface MySelectProps {
   priority: Priority;
   setPriority: (priority: Priority) => void;
+}
+
+export type SortField = 'date' | 'priority';
+export type SortDirection = 'asc' | 'desc';
+
+export interface SortControlsProps {
+  onChange: (field: SortField, direction: SortDirection) => void;
+}
+
+export interface SortConfigState {
+  field: 'date' | 'priority';
+  direction: 'asc' | 'desc';
 }
