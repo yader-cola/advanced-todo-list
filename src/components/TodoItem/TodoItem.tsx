@@ -2,12 +2,7 @@ import { type FC, useEffect, useState } from 'react';
 import styles from './TodoItem.module.css';
 import type { Priority, TodoItemProps } from '../../types/todo';
 import MySelect from '../MySelect/MySelect.tsx';
-
-const priorityLabels: Record<Priority, string> = {
-  low: 'Низкий',
-  medium: 'Средний',
-  high: 'Высокий',
-};
+import { PRIORITY_MAP } from '../../constants/constants.ts';
 
 const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, onEditTodo }) => {
   const [editText, setEditText] = useState(todo.text);
@@ -69,7 +64,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, on
       ) : (
         <>
           <span className={styles.textTodo}>{todo.text}</span>
-          <span className={styles.priorityLabel}>{priorityLabels[todo.priority]}</span>
+          <span className={styles.priorityLabel}>{PRIORITY_MAP[todo.priority]}</span>
           <span className={styles.dateTodo}>{new Date(todo.date).toLocaleString()}</span>
         </>
       )}
