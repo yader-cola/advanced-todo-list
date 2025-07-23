@@ -79,10 +79,7 @@ const App: FC = () => {
     <>
       <h1>Advanced Todo List</h1>
       <div className="todoApp">
-        <div className="controls">
-          <span>Сортировка:</span>
-          <SortSelect onChange={handleSortChange}></SortSelect>
-        </div>
+        <SortSelect onChange={handleSortChange}></SortSelect>
         <TodoList
           todos={sortedTodos}
           onDeleteTodo={handleDeleteTodo}

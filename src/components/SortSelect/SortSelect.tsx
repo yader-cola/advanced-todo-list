@@ -23,17 +23,20 @@ const SortSelect: FC<SortControlsProps> = ({ onChange }) => {
   };
 
   return (
-    <div className={styles.sortControls}>
-      <div className={styles.fields}>
-        <button className={styles.field} onClick={() => handleFieldClick('date')}>
-          По дате
-        </button>
-        <button className={styles.field} onClick={() => handleFieldClick('priority')}>
-          По приоритету
-        </button>
-        <button className={styles.field} onClick={handleDirectionClick}>
-          {sortDirection === 'asc' ? '↑' : '↓'}
-        </button>
+    <div className={styles.controls}>
+      <span className={styles.controlsHeader}>Сортировка</span>
+      <div className={styles.sortControls}>
+        <div className={styles.fields}>
+          <button className={styles.field} onClick={() => handleFieldClick('date')}>
+            По дате
+          </button>
+          <button className={styles.field} onClick={() => handleFieldClick('priority')}>
+            По приоритету
+          </button>
+          <button className={styles.field} onClick={handleDirectionClick}>
+            {sortDirection === 'asc' ? '↑' : '↓'}
+          </button>
+        </div>
       </div>
     </div>
   );
