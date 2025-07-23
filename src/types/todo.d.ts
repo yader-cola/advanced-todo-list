@@ -1,5 +1,10 @@
 export type Priority = 'low' | 'medium' | 'high';
 
+export interface PriorityOption {
+  value: Priority;
+  label: string;
+}
+
 export interface Todo {
   id: string;
   text: string;

@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import styles from '../AddTodo/AddTodo.module.css';
 import type { Priority, MySelectProps } from '../../types/todo';
+import { PRIORITY_OPTIONS } from '../../constants/constants.ts';
 
 const MySelect: FC<MySelectProps> = ({ priority, setPriority }) => {
   return (
@@ -9,9 +10,11 @@ const MySelect: FC<MySelectProps> = ({ priority, setPriority }) => {
       value={priority}
       onChange={(e) => setPriority(e.target.value as Priority)}
     >
-      <option value="low">Низкий</option>
-      <option value="medium">Средний</option>
-      <option value="high">Высокий</option>
+      {PRIORITY_OPTIONS.map(({ value, label }) => (
+        <option key={value} value={value}>
+          {label}
+        </option>
+      ))}
     </select>
   );
 };
