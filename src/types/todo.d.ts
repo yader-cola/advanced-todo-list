@@ -38,6 +38,11 @@ export interface MySelectProps {
   setPriority: (priority: Priority) => void;
 }
 
+export interface PriorityFilterProps {
+  selectedPriorities: Priority[];
+  onChange: (priority: Priority[]) => void;
+}
+
 export type SortField = 'date' | 'priority';
 export type SortDirection = 'asc' | 'desc';
 

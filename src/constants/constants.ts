@@ -13,3 +13,5 @@ export const PRIORITY_MAP: Record<Priority, string> = {
 };
 
 export const DEFAULT_TIMER: number = 10000;
+
+export const PRIORITY_FILTER_OPTIONS: Priority[] = ['low', 'medium', 'high'];
