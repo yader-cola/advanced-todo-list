@@ -54,3 +54,9 @@ export interface SortConfigState {
   field: 'date' | 'priority';
   direction: 'asc' | 'desc';
 }
+
+export interface DateRangePickerProps {
+  onApply: (start: string, end: string) => void;
+}
+
+export type DateFilter = { start: string; end: string } | null;

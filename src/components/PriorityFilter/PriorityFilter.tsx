@@ -12,8 +12,8 @@ const PriorityFilter: FC<PriorityFilterProps> = ({ selectedPriorities, onChange 
   };
 
   return (
-    <div className={styles.filterContainer}>
-      <h3 className={styles.filterTitle}>Фильтр по приоритету</h3>
+    <div className={styles.container}>
+      <span className={styles.filterTitle}>Фильтр по приоритету</span>
       <div className={styles.checkboxGroup}>
         {PRIORITY_FILTER_OPTIONS.map((priority) => (
           <label key={priority} className={styles.checkboxLabel}>

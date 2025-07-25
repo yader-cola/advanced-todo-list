@@ -2,10 +2,18 @@ import './App.css';
 import { type FC, useEffect, useState } from 'react';
 import TodoList from './components/TodoList/TodoList.tsx';
 import AddTodo from './components/AddTodo/AddTodo.tsx';
-import type { Priority, SortConfigState, SortDirection, SortField, Todo } from './types/todo';
+import type {
+  DateFilter,
+  Priority,
+  SortConfigState,
+  SortDirection,
+  SortField,
+  Todo,
+} from './types/todo';
 import SortSelect from './components/SortSelect/SortSelect.tsx';
 import PriorityFilter from './components/PriorityFilter/PriorityFilter.tsx';
 import { PRIORITY_FILTER_OPTIONS } from './constants/constants.ts';
+import DateRangePicker from './components/DateRangePicker/DateRangePicker.tsx';
 
 const STORAGE_KEY = 'todos';
 
@@ -19,13 +27,27 @@ const App: FC = () => {
     direction: 'desc',
   });
   const [selectedPriorities, setSelectedPriorities] = useState<Priority[]>(PRIORITY_FILTER_OPTIONS);
+  const [dateFilter, setDateFilter] = useState<DateFilter>(null);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
 
   const sortedTodos = [...todos]
-    .filter((todo) => selectedPriorities.includes(todo.priority))
+    .filter((todo) => {
+      const priorityMatch = selectedPriorities.includes(todo.priority);
+
+      let dateMatch = true;
+      if (dateFilter) {
+        const todoDate = new Date(todo.date).getTime();
+        const startDate = new Date(dateFilter.start).getTime();
+        const endDate = new Date(dateFilter.end).getTime();
+
+        dateMatch = todoDate >= startDate && todoDate <= endDate;
+      }
+
+      return priorityMatch && dateMatch;
+    })
     .sort((a, b) => {
       if (sortConfig.field === 'date') {
         const dateA = new Date(a.date).getTime();
@@ -80,6 +102,14 @@ const App: FC = () => {
     );
   };
 
+  const handleApply = (start: string, end: string) => {
+    if (start && end) {
+      setDateFilter({ start, end });
+    } else {
+      setDateFilter(null);
+    }
+  };
+
   return (
     <>
       <div className="todoAppContainer">
@@ -88,6 +118,7 @@ const App: FC = () => {
             selectedPriorities={selectedPriorities}
             onChange={setSelectedPriorities}
           />
+          <DateRangePicker onApply={handleApply} />
         </div>
         <div className="todoAppMain">
           <h1>Advanced Todo List</h1>
