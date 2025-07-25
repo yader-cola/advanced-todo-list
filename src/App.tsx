@@ -4,6 +4,8 @@ import TodoList from './components/TodoList/TodoList.tsx';
 import AddTodo from './components/AddTodo/AddTodo.tsx';
 import type { Priority, SortConfigState, SortDirection, SortField, Todo } from './types/todo';
 import SortSelect from './components/SortSelect/SortSelect.tsx';
+import PriorityFilter from './components/PriorityFilter/PriorityFilter.tsx';
+import { PRIORITY_FILTER_OPTIONS } from './constants/constants.ts';
 
 const STORAGE_KEY = 'todos';
 
@@ -16,22 +18,25 @@ const App: FC = () => {
     field: 'date',
     direction: 'desc',
   });
+  const [selectedPriorities, setSelectedPriorities] = useState<Priority[]>(PRIORITY_FILTER_OPTIONS);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
 
-  const sortedTodos = [...todos].sort((a, b) => {
-    if (sortConfig.field === 'date') {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
-    }
-    const priorityOrder: Record<Priority, number> = { high: 3, medium: 2, low: 1 };
-    const aPriority = priorityOrder[a.priority];
-    const bPriority = priorityOrder[b.priority];
-    return sortConfig.direction === 'asc' ? aPriority - bPriority : bPriority - aPriority;
-  });
+  const sortedTodos = [...todos]
+    .filter((todo) => selectedPriorities.includes(todo.priority))
+    .sort((a, b) => {
+      if (sortConfig.field === 'date') {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
+      }
+      const priorityOrder: Record<Priority, number> = { high: 3, medium: 2, low: 1 };
+      const aPriority = priorityOrder[a.priority];
+      const bPriority = priorityOrder[b.priority];
+      return sortConfig.direction === 'asc' ? aPriority - bPriority : bPriority - aPriority;
+    });
 
   const handleSortChange = (field: SortField, direction: SortDirection) => {
     setSortConfig({ field, direction });
@@ -77,16 +82,24 @@ const App: FC = () => {
 
   return (
     <>
-      <h1>Advanced Todo List</h1>
-      <div className="todoApp">
-        <SortSelect onChange={handleSortChange}></SortSelect>
-        <TodoList
-          todos={sortedTodos}
-          onDeleteTodo={handleDeleteTodo}
-          onEditTodo={handleEditTodo}
-          onStartEditing={startEditing}
-        />
-        <AddTodo handleAddTodo={handleAddTodo} />
+      <div className="todoAppContainer">
+        <div className="filtersPanel">
+          <PriorityFilter
+            selectedPriorities={selectedPriorities}
+            onChange={setSelectedPriorities}
+          />
+        </div>
+        <div className="todoAppMain">
+          <h1>Advanced Todo List</h1>
+          <SortSelect onChange={handleSortChange}></SortSelect>
+          <TodoList
+            todos={sortedTodos}
+            onDeleteTodo={handleDeleteTodo}
+            onEditTodo={handleEditTodo}
+            onStartEditing={startEditing}
+          />
+          <AddTodo handleAddTodo={handleAddTodo} />
+        </div>
       </div>
     </>
   );
