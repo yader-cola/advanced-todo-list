@@ -2,18 +2,24 @@
     margin-top: 10px;
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
-.checkboxGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    text-align: left;
-}
 .filterTitle {
     font-size: 18px;
     font-weight: 600;
     border-bottom: 1px solid lightgray;
     border-top: 1px solid lightgray;
-    padding: 5px;
+    padding: 6px;
+}
+
+.button {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.active {
+    cursor: pointer;
 }
