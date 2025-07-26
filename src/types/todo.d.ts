@@ -10,6 +10,7 @@ export interface Todo {
   text: string;
   date: string;
   priority: Priority;
+  completed: boolean;
   isEditing?: boolean;
   lastState?: { text: string; priority: Priority };
 }
@@ -23,6 +24,7 @@ export interface TodoListProps {
   onDeleteTodo: (id: string) => void;
   onEditTodo: (id: string, newText: string, newPriority: Priority) => void;
   onStartEditing: (id: string | null) => void;
+  onToggleCompleted: (id: string) => void;
 }
 
 export interface TodoItemProps {
@@ -31,6 +33,7 @@ export interface TodoItemProps {
   index: number;
   onEditTodo: (id: string, newText: string, newPriority: Priority) => void;
   onStartEditing: (id: string | null) => void;
+  onToggleCompleted: (id: string) => void;
 }
 
 export interface MySelectProps {
@@ -60,3 +63,15 @@ export interface DateRangePickerProps {
 }
 
 export type DateFilter = { start: string; end: string } | null;
+
+export interface Tab {
+  id: 'all' | 'completed' | 'active';
+  label: string;
+}
+
+export interface TabsProps {
+  activeTab: 'all' | 'completed' | 'active';
+  onTabChange: (tab: 'all' | 'completed' | 'active') => void;
+}
+
+export type ActiveTabState = 'all' | 'completed' | 'active';

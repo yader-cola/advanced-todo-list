@@ -1,11 +1,8 @@
-.controls {
-    border-bottom: 1px solid black;
-}
-
 .controlsHeader {
     display: inline-block;
     font-size: 20px;
     margin-top: 10px;
+    font-weight: 600;
 }
 
 .sortControls {

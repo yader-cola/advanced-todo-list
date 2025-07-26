@@ -3,6 +3,7 @@ import { type FC, useEffect, useState } from 'react';
 import TodoList from './components/TodoList/TodoList.tsx';
 import AddTodo from './components/AddTodo/AddTodo.tsx';
 import type {
+  ActiveTabState,
   DateFilter,
   Priority,
   SortConfigState,
@@ -12,10 +13,9 @@ import type {
 } from './types/todo';
 import SortSelect from './components/SortSelect/SortSelect.tsx';
 import PriorityFilter from './components/PriorityFilter/PriorityFilter.tsx';
-import { PRIORITY_FILTER_OPTIONS } from './constants/constants.ts';
+import { PRIORITY_FILTER_OPTIONS, STORAGE_KEY } from './constants/constants.ts';
 import DateRangePicker from './components/DateRangePicker/DateRangePicker.tsx';
-
-const STORAGE_KEY = 'todos';
+import Tabs from './components/Tabs/Tabs.tsx';
 
 const App: FC = () => {
   const [todos, setTodos] = useState<Todo[]>(() => {
@@ -28,6 +28,7 @@ const App: FC = () => {
   });
   const [selectedPriorities, setSelectedPriorities] = useState<Priority[]>(PRIORITY_FILTER_OPTIONS);
   const [dateFilter, setDateFilter] = useState<DateFilter>(null);
+  const [activeTab, setActiveTab] = useState<ActiveTabState>('all');
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
@@ -35,6 +36,10 @@ const App: FC = () => {
 
   const sortedTodos = [...todos]
     .filter((todo) => {
+      let statusMatch = true;
+      if (activeTab === 'completed') statusMatch = todo.completed;
+      if (activeTab === 'active') statusMatch = !todo.completed;
+
       const priorityMatch = selectedPriorities.includes(todo.priority);
 
       let dateMatch = true;
@@ -46,7 +51,7 @@ const App: FC = () => {
         dateMatch = todoDate >= startDate && todoDate <= endDate;
       }
 
-      return priorityMatch && dateMatch;
+      return statusMatch && priorityMatch && dateMatch;
     })
     .sort((a, b) => {
       if (sortConfig.field === 'date') {
@@ -70,6 +75,7 @@ const App: FC = () => {
       text: text,
       date: new Date().toISOString(),
       priority: priority,
+      completed: false,
     };
     setTodos([...todos, newTodo]);
   };
@@ -110,6 +116,12 @@ const App: FC = () => {
     }
   };
 
+  const handleToggleCompleted = (id: string) => {
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)),
+    );
+  };
+
   return (
     <>
       <div className="todoAppContainer">
@@ -123,11 +135,13 @@ const App: FC = () => {
         <div className="todoAppMain">
           <h1>Advanced Todo List</h1>
           <SortSelect onChange={handleSortChange}></SortSelect>
+          <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
           <TodoList
             todos={sortedTodos}
             onDeleteTodo={handleDeleteTodo}
             onEditTodo={handleEditTodo}
             onStartEditing={startEditing}
+            onToggleCompleted={handleToggleCompleted}
           />
           <AddTodo handleAddTodo={handleAddTodo} />
         </div>
