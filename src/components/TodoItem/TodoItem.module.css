@@ -62,3 +62,12 @@
     opacity: 0.7;
     transform: scale(1.05);
 }
+
+.completed {
+    opacity: 0.7;
+    background: darkgray;
+}
+
+.completionCheckbox {
+    cursor: pointer;
+}

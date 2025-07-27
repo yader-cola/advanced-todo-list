@@ -4,7 +4,14 @@ import type { Priority, TodoItemProps } from '../../types/todo';
 import MySelect from '../MySelect/MySelect.tsx';
 import { DEFAULT_TIMER, PRIORITY_MAP } from '../../constants/constants.ts';
 
-const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, onEditTodo }) => {
+const TodoItem: FC<TodoItemProps> = ({
+  todo,
+  onDelete,
+  index,
+  onStartEditing,
+  onEditTodo,
+  onToggleCompleted,
+}) => {
   const [editText, setEditText] = useState(todo.text);
   const [editPriority, setEditPriority] = useState<Priority>(todo.priority);
   const [showUndo, setShowUndo] = useState(false);
@@ -44,7 +51,17 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDelete, index, onStartEditing, on
   };
 
   return (
-    <div className={`${styles.todoItem} ${styles[todo.priority]}`}>
+    <div
+      className={`${styles.todoItem} ${styles[todo.priority]} ${todo.completed ? styles.completed : ''}`}
+    >
+      <div>
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => onToggleCompleted(todo.id)}
+          className={styles.completionCheckbox}
+        />
+      </div>
       <span className={styles.indexTodo}>{index}</span>
       {todo.isEditing ? (
         <>

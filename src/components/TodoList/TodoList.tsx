@@ -3,7 +3,13 @@ import TodoItem from '../TodoItem/TodoItem.tsx';
 import type { Todo, TodoListProps } from '../../types/todo';
 import styles from './TodoList.module.css';
 
-const TodoList: FC<TodoListProps> = ({ todos, onDeleteTodo, onEditTodo, onStartEditing }) => {
+const TodoList: FC<TodoListProps> = ({
+  todos,
+  onDeleteTodo,
+  onEditTodo,
+  onStartEditing,
+  onToggleCompleted,
+}) => {
   return (
     <div className={styles.todoList}>
       {todos.map((todo: Todo, index: number) => (
@@ -14,6 +20,7 @@ const TodoList: FC<TodoListProps> = ({ todos, onDeleteTodo, onEditTodo, onStartE
           index={index + 1}
           onEditTodo={onEditTodo}
           onStartEditing={onStartEditing}
+          onToggleCompleted={onToggleCompleted}
         />
       ))}
     </div>
