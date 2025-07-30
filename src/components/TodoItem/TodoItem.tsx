@@ -1,8 +1,9 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC } from 'react';
 import styles from './TodoItem.module.css';
-import type { Priority, TodoItemProps } from '../../types/todo';
+import type { TodoItemProps } from '../../types/todo';
 import MySelect from '../MySelect/MySelect.tsx';
-import { DEFAULT_TIMER, PRIORITY_MAP } from '../../constants/constants.ts';
+import { PRIORITY_MAP } from '../../constants/constants.ts';
+import { useTodoItem } from '../../hooks/useTodoItem.ts';
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,
@@ -12,43 +13,22 @@ const TodoItem: FC<TodoItemProps> = ({
   onEditTodo,
   onToggleCompleted,
 }) => {
-  const [editText, setEditText] = useState(todo.text);
-  const [editPriority, setEditPriority] = useState<Priority>(todo.priority);
-  const [showUndo, setShowUndo] = useState(false);
-  const [lastState, setLastState] = useState<{ text: string; priority: Priority }>();
-
-  const handleSave = () => {
-    if (editText.trim()) {
-      setLastState({ text: todo.text, priority: todo.priority });
-      onEditTodo(todo.id, editText, editPriority);
-      setShowUndo(true);
-    }
-  };
-
-  const handleUndo = () => {
-    if (lastState) {
-      onEditTodo(todo.id, lastState.text, lastState.priority);
-      setShowUndo(false);
-    }
-  };
-
-  useEffect(() => {
-    if (showUndo) {
-      const timer = setTimeout(() => {
-        setShowUndo(false);
-      }, DEFAULT_TIMER);
-      return () => clearTimeout(timer);
-    }
-  }, [showUndo]);
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSave();
-    } else if (e.key === 'Escape') {
-      onStartEditing(null);
-    }
-  };
+  const {
+    editText,
+    editPriority,
+    showUndo,
+    setEditText,
+    setEditPriority,
+    handleSave,
+    handleUndo,
+    handleKeyDown,
+  } = useTodoItem({
+    todo,
+    onDelete,
+    onStartEditing,
+    onEditTodo,
+    onToggleCompleted,
+  });
 
   return (
     <div
