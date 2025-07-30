@@ -75,3 +75,5 @@ export interface TabsProps {
 }
 
 export type ActiveTabState = 'all' | 'completed' | 'active';
+
+export type UseTodoItemProps = Omit<TodoItemProps, 'index'>;
